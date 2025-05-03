@@ -6,11 +6,14 @@ import com.ianhomelabs.simple_siakad.exception.DataNotFoundException;
 import com.ianhomelabs.simple_siakad.exception.InternalServerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestControllerAdvice
 public class GlobalErrorHandler {
@@ -51,5 +54,22 @@ public class GlobalErrorHandler {
         );
 
         return new ResponseEntity<>(errorDetail, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<BaseErrorDetail> handleValidationErrors(MethodArgumentNotValidException exception, WebRequest request) {
+        List<String> errors = exception.getBindingResult().getFieldErrors().stream().map(
+                FieldError::getDefaultMessage
+        ).toList();
+
+        BaseErrorDetail errorDetail = new BaseErrorDetail(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                errors.toString(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
 }

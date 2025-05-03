@@ -4,6 +4,7 @@ import com.ianhomelabs.simple_siakad.dto.request.CreateMahasiswaRequestDto;
 import com.ianhomelabs.simple_siakad.dto.response.MahasiswaDetailResponseDto;
 import com.ianhomelabs.simple_siakad.exception.BadRequestException;
 import com.ianhomelabs.simple_siakad.exception.DataNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,7 +35,7 @@ public class HelloController {
     }
 
     @PostMapping("/mahasiswa")
-    public MahasiswaDetailResponseDto createMahasiswa(@RequestBody CreateMahasiswaRequestDto createMahasiswaRequestDto) {
+    public MahasiswaDetailResponseDto createMahasiswa(@RequestBody @Valid CreateMahasiswaRequestDto createMahasiswaRequestDto) {
         MahasiswaDetailResponseDto mahasiswaDetailResponseDto = new MahasiswaDetailResponseDto();
         mahasiswaDetailResponseDto.setNama(createMahasiswaRequestDto.getNama());
         mahasiswaDetailResponseDto.setJurusan(createMahasiswaRequestDto.getJurusan());
