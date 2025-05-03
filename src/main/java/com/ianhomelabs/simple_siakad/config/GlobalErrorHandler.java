@@ -6,6 +6,7 @@ import com.ianhomelabs.simple_siakad.exception.DataNotFoundException;
 import com.ianhomelabs.simple_siakad.exception.InternalServerException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 
 @RestControllerAdvice
 public class GlobalErrorHandler {
+    @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<BaseErrorDetail> handleBadRequestException(BadRequestException exception, WebRequest request) {
         BaseErrorDetail errorDetail = new BaseErrorDetail(
                 LocalDateTime.now(),
@@ -24,6 +26,8 @@ public class GlobalErrorHandler {
 
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(DataNotFoundException.class)
     public ResponseEntity<BaseErrorDetail> handleDataNotFoundException(DataNotFoundException exception, WebRequest request) {
         BaseErrorDetail errorDetail = new BaseErrorDetail(
                 LocalDateTime.now(),
@@ -35,6 +39,8 @@ public class GlobalErrorHandler {
 
         return new ResponseEntity<>(errorDetail, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(InternalServerException.class)
     public ResponseEntity<BaseErrorDetail> handleInternalServerException(InternalServerException exception, WebRequest request) {
         BaseErrorDetail errorDetail = new BaseErrorDetail(
                 LocalDateTime.now(),
