@@ -25,20 +25,17 @@ public class HelloController {
         throw new BadRequestException("Data yang anda masukkan tidak valid");
     }
 
-    @GetMapping("/mahasiswa")
+    @GetMapping("/sample-mahasiswa")
     public MahasiswaDetailResponseDto getMahasiswaDetail() {
         return new MahasiswaDetailResponseDto(
-                "Ian",
-                "Teknik Informatika",
-                "1323"
         );
     }
 
-    @PostMapping("/mahasiswa")
+    @PostMapping("/sample-mahasiswa")
     public MahasiswaDetailResponseDto createMahasiswa(@RequestBody @Valid CreateMahasiswaRequestDto createMahasiswaRequestDto) {
         MahasiswaDetailResponseDto mahasiswaDetailResponseDto = new MahasiswaDetailResponseDto();
         mahasiswaDetailResponseDto.setNama(createMahasiswaRequestDto.getNama());
-        mahasiswaDetailResponseDto.setJurusan(createMahasiswaRequestDto.getJurusan());
+//        mahasiswaDetailResponseDto.setJurusan(createMahasiswaRequestDto.getJurusan());
         mahasiswaDetailResponseDto.setNim(createMahasiswaRequestDto.getNim());
 
         return mahasiswaDetailResponseDto;

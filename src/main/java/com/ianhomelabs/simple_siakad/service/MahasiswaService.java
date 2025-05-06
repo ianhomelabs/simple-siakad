@@ -1,0 +1,18 @@
+package com.ianhomelabs.simple_siakad.service;
+
+import com.ianhomelabs.simple_siakad.model.Mahasiswa;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface MahasiswaService {
+    Mahasiswa create(Mahasiswa mahasiswa);
+
+    List<Mahasiswa> getAll();
+
+    Mahasiswa getById(UUID id);
+
+    Mahasiswa update(UUID id, Mahasiswa mahasiswa);
+
+    Mahasiswa delete(UUID id);
+}

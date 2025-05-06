@@ -1,15 +1,24 @@
-package com.ianhomelabs.simple_siakad.dto.request;
+package com.ianhomelabs.simple_siakad.model;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.UUID;
+
+@Entity
+@Table(name = "tb_mahasiswa")
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class CreateMahasiswaRequestDto {
+public class Mahasiswa {
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+
     @NotBlank(message = "Nama tidak boleh kosong")
     private String nama;
 

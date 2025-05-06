@@ -1,6 +1,10 @@
 package com.ianhomelabs.simple_siakad.dto.response;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+
+import java.util.UUID;
 
 @Setter
 @Getter
@@ -8,7 +12,11 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class MahasiswaDetailResponseDto {
+    private UUID id;
+
     private String nama;
-    private String jurusan;
+
     private String nim;
+
+    private String email;
 }
