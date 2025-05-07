@@ -1,10 +1,5 @@
 package com.ianhomelabs.simple_siakad.dto.response;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.UUID;

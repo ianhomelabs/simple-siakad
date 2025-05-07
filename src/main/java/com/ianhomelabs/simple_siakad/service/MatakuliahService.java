@@ -1,6 +1,5 @@
 package com.ianhomelabs.simple_siakad.service;
 
-import com.ianhomelabs.simple_siakad.model.Mahasiswa;
 import com.ianhomelabs.simple_siakad.model.Matakuliah;
 
 import java.util.List;
