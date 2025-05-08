@@ -1,6 +1,5 @@
 package com.ianhomelabs.simple_siakad.service;
 
-import com.ianhomelabs.simple_siakad.model.Dosen;
 import com.ianhomelabs.simple_siakad.model.Krs;
 
 import java.util.List;

@@ -1,9 +1,7 @@
 package com.ianhomelabs.simple_siakad.service.impl;
 
 import com.ianhomelabs.simple_siakad.exception.DataNotFoundException;
-import com.ianhomelabs.simple_siakad.model.Krs;
 import com.ianhomelabs.simple_siakad.model.KrsDetail;
-import com.ianhomelabs.simple_siakad.model.Matakuliah;
 import com.ianhomelabs.simple_siakad.repository.KrsDetailRepository;
 import com.ianhomelabs.simple_siakad.service.KrsDetailService;
 import com.ianhomelabs.simple_siakad.service.KrsService;
