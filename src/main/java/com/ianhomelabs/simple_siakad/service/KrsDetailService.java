@@ -1,5 +1,7 @@
 package com.ianhomelabs.simple_siakad.service;
 
+import com.ianhomelabs.simple_siakad.dto.request.KrsDetailRequestDto;
+import com.ianhomelabs.simple_siakad.dto.response.KrsDetailResponseDto;
 import com.ianhomelabs.simple_siakad.model.KrsDetail;
 
 import java.util.List;
@@ -16,4 +18,7 @@ public interface KrsDetailService {
 
     KrsDetail delete(UUID id);
 
+    KrsDetailResponseDto mapToDto(KrsDetail krsDetail);
+
+    KrsDetail mapToEntity(KrsDetailRequestDto krsDetailRequestDto);
 }

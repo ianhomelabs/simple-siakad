@@ -1,5 +1,7 @@
 package com.ianhomelabs.simple_siakad.service.impl;
 
+import com.ianhomelabs.simple_siakad.dto.request.KrsRequestDto;
+import com.ianhomelabs.simple_siakad.dto.response.KrsResponseDto;
 import com.ianhomelabs.simple_siakad.exception.DataNotFoundException;
 import com.ianhomelabs.simple_siakad.model.Krs;
 import com.ianhomelabs.simple_siakad.repository.KrsRepository;
@@ -66,5 +68,22 @@ public class KrsServiceImpl implements KrsService {
 
         krsRepository.delete(existingKrs);
         return existingKrs;
+    }
+
+    @Override
+    public KrsResponseDto mapToDto(Krs krs) {
+        return KrsResponseDto.builder()
+                .id(krs.getId())
+                .mahasiswaId(krs.getMahasiswaId())
+                .semester(krs.getSemester())
+                .build();
+    }
+
+    @Override
+    public Krs mapToEntity(KrsRequestDto krsRequestDto) {
+        return Krs.builder()
+                .mahasiswaId(krsRequestDto.getMahasiswaId())
+                .semester(krsRequestDto.getSemester())
+                .build();
     }
 }
