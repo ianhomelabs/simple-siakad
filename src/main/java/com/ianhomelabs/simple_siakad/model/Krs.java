@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,4 +26,7 @@ public class Krs {
     @ManyToOne
     @JoinColumn(name = "mahasiswa_id", referencedColumnName = "id")
     private Mahasiswa mahasiswa;
+
+    @OneToMany(mappedBy = "krs", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<KrsDetail> krsDetails;
 }

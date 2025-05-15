@@ -14,6 +14,8 @@ public class KrsDetailResponseDto {
 
     private UUID krsId;
 
+    private Integer krsSemester;
+
     private UUID matakuliahId;
 
     private Float nilai;

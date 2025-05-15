@@ -3,6 +3,7 @@ package com.ianhomelabs.simple_siakad.service.impl;
 import com.ianhomelabs.simple_siakad.dto.request.KrsDetailRequestDto;
 import com.ianhomelabs.simple_siakad.dto.response.KrsDetailResponseDto;
 import com.ianhomelabs.simple_siakad.exception.DataNotFoundException;
+import com.ianhomelabs.simple_siakad.model.Krs;
 import com.ianhomelabs.simple_siakad.model.KrsDetail;
 import com.ianhomelabs.simple_siakad.repository.KrsDetailRepository;
 import com.ianhomelabs.simple_siakad.service.KrsDetailService;
@@ -32,7 +33,7 @@ public class KrsDetailServiceImpl implements KrsDetailService {
     public KrsDetail create(KrsDetail krsDetail) {
         // Validate if matakuliah and krs are valid
         matakuliahService.getById(krsDetail.getMatakuliahId());
-        krsService.getById(krsDetail.getKrsId());
+        krsService.getById(krsDetail.getKrs().getId());
 
         krsDetailRepository.save(krsDetail);
         return krsDetail;
@@ -58,10 +59,10 @@ public class KrsDetailServiceImpl implements KrsDetailService {
         // Validate krs detail is exists
         KrsDetail existingKrsDetail = getById(id);
 
-        if (!existingKrsDetail.getKrsId().equals(krsDetail.getKrsId())) {
+        if (!existingKrsDetail.getKrs().getId().equals(krsDetail.getKrs().getId())) {
             // Validate if krs are valid
-            krsService.getById(krsDetail.getKrsId());
-            existingKrsDetail.setKrsId(krsDetail.getKrsId());
+            krsService.getById(krsDetail.getKrs().getId());
+            existingKrsDetail.getKrs().setId(krsDetail.getKrs().getId());
         }
         if (!existingKrsDetail.getMatakuliahId().equals(krsDetail.getMatakuliahId())) {
             // Validate if matakuliah are valid
@@ -89,7 +90,8 @@ public class KrsDetailServiceImpl implements KrsDetailService {
     public KrsDetailResponseDto mapToDto(KrsDetail krsDetail) {
         return KrsDetailResponseDto.builder()
                 .id(krsDetail.getId())
-                .krsId(krsDetail.getKrsId())
+                .krsId(krsDetail.getKrs().getId())
+                .krsSemester(krsDetail.getKrs().getSemester())
                 .matakuliahId(krsDetail.getMatakuliahId())
                 .nilai(krsDetail.getNilai())
                 .build();
@@ -98,7 +100,7 @@ public class KrsDetailServiceImpl implements KrsDetailService {
     @Override
     public KrsDetail mapToEntity(KrsDetailRequestDto krsDetailRequestDto) {
         return KrsDetail.builder()
-                .krsId(krsDetailRequestDto.getKrsId())
+                .krs(Krs.builder().id(krsDetailRequestDto.getKrsId()).build())
                 .matakuliahId(krsDetailRequestDto.getMatakuliahId())
                 .nilai(krsDetailRequestDto.getNilai())
                 .build();
