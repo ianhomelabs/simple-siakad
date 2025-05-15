@@ -21,4 +21,8 @@ public class KrsDetailResponseDto {
     private String matakuliahName;
 
     private Float nilai;
+
+    private String dosenName;
+
+    private String mahasiswaName;
 }

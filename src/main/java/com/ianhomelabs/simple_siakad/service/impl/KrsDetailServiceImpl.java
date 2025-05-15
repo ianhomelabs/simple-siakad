@@ -96,6 +96,8 @@ public class KrsDetailServiceImpl implements KrsDetailService {
                 .matakuliahId(krsDetail.getMatakuliah().getId())
                 .matakuliahName(krsDetail.getMatakuliah().getNama())
                 .nilai(krsDetail.getNilai())
+                .mahasiswaName(krsDetail.getKrs().getMahasiswa().getNama())
+                .dosenName(krsDetail.getMatakuliah().getDosen().getNama())
                 .build();
     }
 
