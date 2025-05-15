@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,5 +32,8 @@ public class Dosen {
 
     @NotBlank(message = "Password tidak boleh kosong")
     private String password;
+
+    @OneToMany(mappedBy = "dosen", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Matakuliah> matakuliahList;
 
 }

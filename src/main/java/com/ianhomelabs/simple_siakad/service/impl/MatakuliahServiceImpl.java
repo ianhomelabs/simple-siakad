@@ -1,5 +1,7 @@
 package com.ianhomelabs.simple_siakad.service.impl;
 
+import com.ianhomelabs.simple_siakad.dto.request.CreateMatakuliahRequestDto;
+import com.ianhomelabs.simple_siakad.dto.response.MatakuliahDetailResponseDto;
 import com.ianhomelabs.simple_siakad.exception.BadRequestException;
 import com.ianhomelabs.simple_siakad.exception.DataNotFoundException;
 import com.ianhomelabs.simple_siakad.model.Dosen;
@@ -38,10 +40,10 @@ public class MatakuliahServiceImpl implements MatakuliahService {
         }
 
         // Validate dosen are exists
-        Dosen dosen = dosenRepository.findById(matakuliah.getDosenId()).orElseThrow(
+        Dosen dosen = dosenRepository.findById(matakuliah.getDosen().getId()).orElseThrow(
                 () -> new DataNotFoundException("Data dosen tidak ditemukan")
         );
-        matakuliah.setDosenId(dosen.getId());
+        matakuliah.setDosen(dosen);
 
         matakuliahRepository.save(matakuliah);
         return matakuliah;
@@ -72,13 +74,13 @@ public class MatakuliahServiceImpl implements MatakuliahService {
         if (!existingMatakuliah.getSks().equals(matakuliah.getSks())) {
             existingMatakuliah.setSks(matakuliah.getSks());
         }
-        if (!existingMatakuliah.getDosenId().equals(matakuliah.getDosenId())) {
+        if (!existingMatakuliah.getDosen().getId().equals(matakuliah.getDosen().getId())) {
             // Validate dosen are exists
-            Dosen dosen = dosenRepository.findById(matakuliah.getDosenId()).orElseThrow(
+            Dosen dosen = dosenRepository.findById(matakuliah.getDosen().getId()).orElseThrow(
                     () -> new DataNotFoundException("Data dosen tidak ditemukan")
             );
 
-            existingMatakuliah.setDosenId(dosen.getId());
+            existingMatakuliah.setDosen(dosen);
         }
 
         matakuliahRepository.save(existingMatakuliah);
@@ -92,5 +94,27 @@ public class MatakuliahServiceImpl implements MatakuliahService {
 
         matakuliahRepository.delete(existingMatakuliah);
         return existingMatakuliah;
+    }
+
+    @Override
+    public MatakuliahDetailResponseDto mapToDto(Matakuliah matakuliah) {
+        return MatakuliahDetailResponseDto.builder()
+                .id(matakuliah.getId())
+                .kode(matakuliah.getKode())
+                .nama(matakuliah.getNama())
+                .sks(matakuliah.getSks())
+                .dosenId(matakuliah.getDosen().getId())
+                .dosenNama(matakuliah.getDosen().getNama())
+                .build();
+    }
+
+    @Override
+    public Matakuliah mapToEntity(CreateMatakuliahRequestDto createMatakuliahRequestDto) {
+        return Matakuliah.builder()
+                .kode(createMatakuliahRequestDto.getKode())
+                .nama(createMatakuliahRequestDto.getNama())
+                .sks(createMatakuliahRequestDto.getSks())
+                .dosen(Dosen.builder().id(createMatakuliahRequestDto.getDosenId()).build())
+                .build();
     }
 }

@@ -22,75 +22,43 @@ public class MatakuliahController {
 
     @PostMapping("")
     public MatakuliahDetailResponseDto create(@RequestBody @Valid CreateMatakuliahRequestDto createMatakuliahRequestDto) {
-        Matakuliah matakuliah = matakuliahService.create(Matakuliah.builder()
-                .kode(createMatakuliahRequestDto.getKode())
-                .nama(createMatakuliahRequestDto.getNama())
-                .sks(createMatakuliahRequestDto.getSks())
-                .dosenId(createMatakuliahRequestDto.getDosenId())
-                .build());
-
-        return MatakuliahDetailResponseDto.builder()
-                .id(matakuliah.getId())
-                .nama(matakuliah.getNama())
-                .kode(matakuliah.getKode())
-                .sks(matakuliah.getSks())
-                .dosenId(matakuliah.getDosenId())
-                .build();
+        return matakuliahService.mapToDto(
+                matakuliahService.create(
+                        matakuliahService.mapToEntity(createMatakuliahRequestDto)
+                )
+        );
     }
 
     @GetMapping("")
     public List<MatakuliahDetailResponseDto> getAll() {
-        List<Matakuliah> matakuliah = matakuliahService.getAll();
-        return matakuliah.stream().map(matakuliah1 -> MatakuliahDetailResponseDto.builder()
-                .id(matakuliah1.getId())
-                .kode(matakuliah1.getKode())
-                .nama(matakuliah1.getNama())
-                .sks(matakuliah1.getSks())
-                .dosenId(matakuliah1.getDosenId())
-                .build()).toList();
+        List<Matakuliah> matakuliahList = matakuliahService.getAll();
+
+        return matakuliahList.stream()
+                .map(matakuliahService::mapToDto)
+                .toList();
     }
 
     @GetMapping("/{id}")
     public MatakuliahDetailResponseDto getById(@PathVariable String id) {
-        Matakuliah matakuliah = matakuliahService.getById(UUID.fromString(id));
-
-        return MatakuliahDetailResponseDto.builder()
-                .id(matakuliah.getId())
-                .nama(matakuliah.getNama())
-                .kode(matakuliah.getKode())
-                .sks(matakuliah.getSks())
-                .dosenId(matakuliah.getDosenId())
-                .build();
+        return matakuliahService.mapToDto(
+                matakuliahService.getById(UUID.fromString(id))
+        );
     }
 
     @PutMapping("/{id}")
     public MatakuliahDetailResponseDto create(@PathVariable String id, @RequestBody @Valid CreateMatakuliahRequestDto createMatakuliahRequestDto) {
-        Matakuliah matakuliah = matakuliahService.update(UUID.fromString(id), Matakuliah.builder()
-                .kode(createMatakuliahRequestDto.getKode())
-                .nama(createMatakuliahRequestDto.getNama())
-                .sks(createMatakuliahRequestDto.getSks())
-                .dosenId(createMatakuliahRequestDto.getDosenId())
-                .build());
-
-        return MatakuliahDetailResponseDto.builder()
-                .id(matakuliah.getId())
-                .nama(matakuliah.getNama())
-                .kode(matakuliah.getKode())
-                .sks(matakuliah.getSks())
-                .dosenId(matakuliah.getDosenId())
-                .build();
+        return matakuliahService.mapToDto(
+                matakuliahService.update(
+                        UUID.fromString(id),
+                        matakuliahService.mapToEntity(createMatakuliahRequestDto)
+                )
+        );
     }
 
     @DeleteMapping("/{id}")
     public MatakuliahDetailResponseDto delete(@PathVariable String id) {
-        Matakuliah matakuliah = matakuliahService.delete(UUID.fromString(id));
-
-        return MatakuliahDetailResponseDto.builder()
-                .id(matakuliah.getId())
-                .nama(matakuliah.getNama())
-                .kode(matakuliah.getKode())
-                .sks(matakuliah.getSks())
-                .dosenId(matakuliah.getDosenId())
-                .build();
+        return matakuliahService.mapToDto(
+                matakuliahService.delete(UUID.fromString(id))
+        );
     }
 }

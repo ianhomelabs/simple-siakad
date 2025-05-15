@@ -29,10 +29,10 @@ public class Matakuliah {
     @NotNull(message = "SKS matakuliah tidak boleh kosong")
     private Integer sks;
 
-    @NotNull(message = "Dosen matakuliah tidak boleh kosong")
-    @Column(name = "dosen_id")
-    private UUID dosenId;
-
     @OneToMany(mappedBy = "matakuliah", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<KrsDetail> krsDetails;
+
+    @ManyToOne
+    @JoinColumn(name = "dosen_id", referencedColumnName = "id")
+    private Dosen dosen;
 }

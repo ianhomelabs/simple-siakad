@@ -19,4 +19,6 @@ public class MatakuliahDetailResponseDto {
     private Integer sks;
 
     private UUID dosenId;
+
+    private String dosenNama;
 }
