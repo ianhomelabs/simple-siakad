@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -31,4 +32,7 @@ public class Matakuliah {
     @NotNull(message = "Dosen matakuliah tidak boleh kosong")
     @Column(name = "dosen_id")
     private UUID dosenId;
+
+    @OneToMany(mappedBy = "matakuliah", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<KrsDetail> krsDetails;
 }

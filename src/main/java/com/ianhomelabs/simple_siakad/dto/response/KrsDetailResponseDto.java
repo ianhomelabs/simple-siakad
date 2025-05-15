@@ -18,5 +18,7 @@ public class KrsDetailResponseDto {
 
     private UUID matakuliahId;
 
+    private String matakuliahName;
+
     private Float nilai;
 }

@@ -19,13 +19,14 @@ public class KrsDetail {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull(message = "Matakuliah id tidak boleh kosong")
-    private UUID matakuliahId;
-
     @NotNull(message = "Nilai tidak boleh kosong")
     private Float nilai;
 
     @ManyToOne
     @JoinColumn(name = "krs_id", referencedColumnName = "id")
     private Krs krs;
+
+    @ManyToOne
+    @JoinColumn(name = "matakuliah_id", referencedColumnName = "id")
+    private Matakuliah matakuliah;
 }
