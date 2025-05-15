@@ -19,10 +19,10 @@ public class Krs {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @NotNull(message = "Mahasiswa id tidak boleh kosong")
-    @Column(name = "mahasiswa_id")
-    private UUID mahasiswaId;
-
     @NotNull(message = "Semester tidak boleh kosong")
     private Integer semester;
+
+    @ManyToOne
+    @JoinColumn(name = "mahasiswa_id", referencedColumnName = "id")
+    private Mahasiswa mahasiswa;
 }
