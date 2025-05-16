@@ -1,9 +1,6 @@
 package com.ianhomelabs.simple_siakad.config;
 
-import com.ianhomelabs.simple_siakad.exception.BadRequestException;
-import com.ianhomelabs.simple_siakad.exception.BaseErrorDetail;
-import com.ianhomelabs.simple_siakad.exception.DataNotFoundException;
-import com.ianhomelabs.simple_siakad.exception.InternalServerException;
+import com.ianhomelabs.simple_siakad.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -71,5 +68,18 @@ public class GlobalErrorHandler {
         );
 
         return new ResponseEntity<>(errorDetail, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<BaseErrorDetail> handleInternalServerException(UnauthorizedException exception, WebRequest request) {
+        BaseErrorDetail errorDetail = new BaseErrorDetail(
+                LocalDateTime.now(),
+                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                exception.getMessage(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(errorDetail, HttpStatus.UNAUTHORIZED);
     }
 }

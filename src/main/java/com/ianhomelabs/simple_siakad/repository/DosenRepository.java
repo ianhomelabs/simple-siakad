@@ -11,4 +11,6 @@ import java.util.UUID;
 public interface DosenRepository extends JpaRepository<Dosen, UUID> {
 
     Optional<Dosen> findByNama(String nama);
+
+    Optional<Dosen> findByEmail(String username);
 }

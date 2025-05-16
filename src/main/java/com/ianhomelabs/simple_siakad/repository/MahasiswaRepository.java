@@ -12,4 +12,6 @@ import java.util.UUID;
 public interface MahasiswaRepository extends JpaRepository<Mahasiswa, UUID> {
 
     Optional<Mahasiswa> findByNama(@NotBlank(message = "Nama tidak boleh kosong") String nama);
+
+    Optional<Mahasiswa> findByEmail(String email);
 }
