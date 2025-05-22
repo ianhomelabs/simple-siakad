@@ -1,13 +1,23 @@
 package com.ianhomelabs.simple_siakad.service.impl;
 
+import com.ianhomelabs.simple_siakad.dto.request.CreateMahasiswaRequestDto;
+import com.ianhomelabs.simple_siakad.dto.response.KrsOnMahasiswaResponseDto;
+import com.ianhomelabs.simple_siakad.dto.response.KrsResponseDto;
+import com.ianhomelabs.simple_siakad.dto.response.MahasiswaDetailResponseDto;
+import com.ianhomelabs.simple_siakad.dto.response.MatakuliahOnKrsResponseDto;
 import com.ianhomelabs.simple_siakad.exception.BadRequestException;
 import com.ianhomelabs.simple_siakad.exception.DataNotFoundException;
+import com.ianhomelabs.simple_siakad.model.Krs;
+import com.ianhomelabs.simple_siakad.model.KrsDetail;
 import com.ianhomelabs.simple_siakad.model.Mahasiswa;
+import com.ianhomelabs.simple_siakad.model.Matakuliah;
 import com.ianhomelabs.simple_siakad.repository.MahasiswaRepository;
+import com.ianhomelabs.simple_siakad.service.KrsService;
 import com.ianhomelabs.simple_siakad.service.MahasiswaService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -79,5 +89,35 @@ public class MahasiswaServiceImpl implements MahasiswaService {
         // Delete mahasiswa
         mahasiswaRepository.delete(existingMahasiswa);
         return existingMahasiswa;
+    }
+
+    @Override
+    public MahasiswaDetailResponseDto mapToDto(Mahasiswa mahasiswa) {
+        return MahasiswaDetailResponseDto.builder()
+                .id(mahasiswa.getId())
+                .email(mahasiswa.getEmail())
+                .nim(mahasiswa.getNim())
+                .nama(mahasiswa.getNama())
+                .daftarKrs(mahasiswa.getDaftarKrs().stream().map(krs -> KrsOnMahasiswaResponseDto.builder()
+                        .semester(krs.getSemester())
+                        .matakuliahList(
+                                krs.getKrsDetails().stream().map(krsDetail -> MatakuliahOnKrsResponseDto.builder()
+                                        .kode(krsDetail.getMatakuliah().getKode())
+                                        .nama(krsDetail.getMatakuliah().getNama())
+                                        .sks(krsDetail.getMatakuliah().getSks())
+                                        .build()).toList()
+                        )
+                        .build()).toList())
+                .build();
+    }
+
+    @Override
+    public Mahasiswa mapToEntity(CreateMahasiswaRequestDto mahasiswaRequestDto) {
+        return Mahasiswa.builder()
+                .password(mahasiswaRequestDto.getPassword())
+                .nim(mahasiswaRequestDto.getNim())
+                .email(mahasiswaRequestDto.getEmail())
+                .nama(mahasiswaRequestDto.getNama())
+                .build();
     }
 }

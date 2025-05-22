@@ -33,8 +33,11 @@ public class KrsDetailServiceImpl implements KrsDetailService {
     @Override
     public KrsDetail create(KrsDetail krsDetail) {
         // Validate if matakuliah and krs are valid
-        matakuliahService.getById(krsDetail.getMatakuliah().getId());
-        krsService.getById(krsDetail.getKrs().getId());
+        Matakuliah matakuliah = matakuliahService.getById(krsDetail.getMatakuliah().getId());
+        Krs krs = krsService.getById(krsDetail.getKrs().getId());
+
+        krsDetail.setMatakuliah(matakuliah);
+        krsDetail.setKrs(krs);
 
         krsDetailRepository.save(krsDetail);
         return krsDetail;

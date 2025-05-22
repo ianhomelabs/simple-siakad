@@ -23,69 +23,39 @@ public class MahasiswaController {
 
     @PostMapping("")
     public MahasiswaDetailResponseDto create(@RequestBody @Valid CreateMahasiswaRequestDto mahasiswaRequestDto) {
-        Mahasiswa createdMahasiswa = mahasiswaService.create(Mahasiswa.builder()
-                        .nama(mahasiswaRequestDto.getNama())
-                        .email(mahasiswaRequestDto.getEmail())
-                        .nim(mahasiswaRequestDto.getNim())
-                        .password(mahasiswaRequestDto.getPassword())
-                .build());
-
-        return MahasiswaDetailResponseDto.builder()
-                .id(createdMahasiswa.getId())
-                .nama(createdMahasiswa.getNama())
-                .nim(createdMahasiswa.getNim())
-                .email(createdMahasiswa.getEmail())
-                .build();
+        return mahasiswaService.mapToDto(
+                mahasiswaService.create(
+                        mahasiswaService.mapToEntity(mahasiswaRequestDto)
+                )
+        );
     }
 
     @GetMapping("/{id}")
     public MahasiswaDetailResponseDto getById(@PathVariable String id) {
-        Mahasiswa mahasiswa = mahasiswaService.getById(UUID.fromString(id));
-        return MahasiswaDetailResponseDto.builder()
-                .id(mahasiswa.getId())
-                .nama(mahasiswa.getNama())
-                .nim(mahasiswa.getNim())
-                .email(mahasiswa.getEmail())
-                .build();
+        return mahasiswaService.mapToDto(
+                mahasiswaService.getById(UUID.fromString(id))
+        );
     }
 
     @GetMapping("")
     public List<MahasiswaDetailResponseDto> getAll() {
         List<Mahasiswa> mahasiswaList = mahasiswaService.getAll();
 
-        return mahasiswaList.stream().map(mahasiswa -> MahasiswaDetailResponseDto.builder()
-                .id(mahasiswa.getId())
-                .nama(mahasiswa.getNama())
-                .nim(mahasiswa.getNim())
-                .email(mahasiswa.getEmail())
-                .build()).toList();
+        return mahasiswaList.stream().map(mahasiswaService::mapToDto).toList();
     }
 
     @PutMapping("/{id}")
     public MahasiswaDetailResponseDto update(@PathVariable String id, @RequestBody @Valid CreateMahasiswaRequestDto mahasiswaRequestDto) {
-        Mahasiswa updatedMahasiswa = mahasiswaService.update(UUID.fromString(id), Mahasiswa.builder()
-                .nama(mahasiswaRequestDto.getNama())
-                .email(mahasiswaRequestDto.getEmail())
-                .nim(mahasiswaRequestDto.getNim())
-                .password(mahasiswaRequestDto.getPassword())
-                .build());
-
-        return MahasiswaDetailResponseDto.builder()
-                .id(updatedMahasiswa.getId())
-                .nama(updatedMahasiswa.getNama())
-                .nim(updatedMahasiswa.getNim())
-                .email(updatedMahasiswa.getEmail())
-                .build();
+        return mahasiswaService.mapToDto(
+                mahasiswaService.update(
+                        UUID.fromString(id), mahasiswaService.mapToEntity(mahasiswaRequestDto)
+                )
+        );
     }
 
     @DeleteMapping("/{id}")
     public MahasiswaDetailResponseDto delete(@PathVariable String id) {
-        Mahasiswa deletedMahasiswa = mahasiswaService.delete(UUID.fromString(id));
-        return MahasiswaDetailResponseDto.builder()
-                .id(deletedMahasiswa.getId())
-                .nama(deletedMahasiswa.getNama())
-                .nim(deletedMahasiswa.getNim())
-                .email(deletedMahasiswa.getEmail())
-                .build();
-    }
+        return mahasiswaService.mapToDto(
+                mahasiswaService.delete(UUID.fromString(id))
+        );    }
 }
